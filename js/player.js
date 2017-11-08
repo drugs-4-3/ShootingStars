@@ -9,6 +9,7 @@ function Player() {
   this.y = height/2;
   this.speed = 0;
   this.acceleration = 0;
+  this.super_shoot_active = false;
 
   this.show = function() {
     fill(255, 120, 160);
@@ -30,6 +31,10 @@ function Player() {
     if (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW)) {
       player.moveUp();
     }
+    if (player.super_shoot_active && keyIsDown(32)) {
+      console.log('space is down');
+      bullets.push(new Bullet(player.x, player.y));
+    }
     // if (keyIsDown(32)) {
     //   player.shoot();
     // }
@@ -40,9 +45,14 @@ function Player() {
   }
 
   this.shoot = function() {
-    if (rounds > 0) {
-      rounds--;
+    if (this.super_shoot_active) {
       bullets.push(new Bullet(this.x, this.y));
+    }
+    else {
+      if (rounds > 0) {
+        rounds--;
+        bullets.push(new Bullet(this.x, this.y));
+      }
     }
   }
 }

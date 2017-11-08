@@ -30,6 +30,13 @@ function keyPressed() {
   if (key == ' ') {
     player.shoot();
   }
+  if (key == "A") {
+    player.super_shoot_active = true;
+    setTimeout(function() {
+      console.log('asd');
+      player.super_shoot_active = false;
+    }, 4000);
+  }
 }
 
 function handleBullets() {

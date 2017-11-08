@@ -4,7 +4,7 @@ var rounds = 30;
 
 function Player() {
 
-  this.radius = 15;
+  this.radius = 30;
   this.x = 50;
   this.y = height/2;
   this.speed = 0;
@@ -12,7 +12,8 @@ function Player() {
 
   this.show = function() {
     fill(255, 120, 160);
-    ellipse(this.x, this.y, this.radius*2);
+    //ellipse(this.x, this.y, this.radius*2);
+    image(wercia_img, this.x, this.y, this.radius*2, this.radius*2);
   }
 
   this.moveUp = function() {

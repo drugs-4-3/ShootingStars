@@ -7,6 +7,9 @@ var loopGame = true;
 function setup() {
   createCanvas(1024, 600);
   player = new Player();
+  evil_img = loadImage('./../assets/img/evil.png');
+  big_enemy_img = loadImage('./../assets/img/angel.png');
+  wercia_img = loadImage('./../assets/img/Wercia.png')
 }
 
 function draw() {
@@ -62,13 +65,21 @@ function handleEnemies() {
 
 function produceEnemies() {
   if (frameCount % 40 == 0) {
-    enemies.push(new Enemy(width + 100, random(height), random(10, 25), random(3, 6), random(-0.4, 0.4)));
+    produceSingleEnemy();
   }
   if(frameCount % 320 == 0) {
-    var y = random(height);
-    for (let i = 0; i < 8; i++) {
-      enemies.push(new Enemy(width + 100, y + random(-50, 50), random(10, 25), random(3, 6), random(-0.4, 0.4)));
-    }
+    produceEnemiesBand();
+  }
+}
+
+function produceSingleEnemy() {
+  enemies.push(new Enemy(width + 100, random(height), random(10, 25), random(3, 6), random(-0.4, 0.4)));
+}
+
+function produceEnemiesBand() {
+  var y = random(height);
+  for (let i = 0; i < 8; i++) {
+    enemies.push(new BigEnemy(width + 100, y + random(-50, 50), random(10, 25), random(3, 6), random(-0.4, 0.4)));
   }
 }
 

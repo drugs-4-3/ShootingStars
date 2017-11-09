@@ -10,6 +10,8 @@ function setup() {
   evil_img = loadImage('./../assets/img/evil.png');
   big_enemy_img = loadImage('./../assets/img/angel.png');
   wercia_img = loadImage('./../assets/img/Wercia.png')
+  compound1 = loadImage('./../assets/img/compound1e.png');
+  compound2 = loadImage('./../assets/img/compound2e.png');
 }
 
 function draw() {
@@ -36,6 +38,9 @@ function keyPressed() {
       console.log('asd');
       player.super_shoot_active = false;
     }, 4000);
+  }
+  if (key == 'C') {
+    player.superShoot();
   }
 }
 

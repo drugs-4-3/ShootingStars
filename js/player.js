@@ -12,7 +12,7 @@ function Player() {
   this.super_shoot_active = false;
 
   this.show = function() {
-    fill(255, 120, 160);
+    //fill(255, 120, 160);
     //ellipse(this.x, this.y, this.radius*2);
     image(wercia_img, this.x, this.y, this.radius*2, this.radius*2);
   }
@@ -35,9 +35,6 @@ function Player() {
       console.log('space is down');
       bullets.push(new Bullet(player.x, player.y));
     }
-    // if (keyIsDown(32)) {
-    //   player.shoot();
-    // }
     this.speed += this.acceleration;
     this.y += this.speed;
     // this.speed *= 0.99;
@@ -51,8 +48,22 @@ function Player() {
     else {
       if (rounds > 0) {
         rounds--;
-        bullets.push(new Bullet(this.x, this.y));
+        bullets.push(new Bullet(this.x, this.y + this.radius));
       }
     }
+  }
+
+  this.superShoot = function() {
+    var color_r = 109;
+    var color_g = 0;
+    var color_b = 0;
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, 15, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, 10, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, 5, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, 0, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, -5, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, -10, color_r, color_g, color_b));
+      bullets.push(new Bullet(this.x, this.y + this.radius, null, -15, color_r, color_g, color_b));
+      console.log(bullets);
   }
 }

@@ -1,4 +1,4 @@
-function Enemy(x, y, r, sx, sy) {
+function Enemy(x, y, r, sx, sy, type=null, image=null) {
 
   this.x = x;
   this.y = y;
@@ -6,6 +6,18 @@ function Enemy(x, y, r, sx, sy) {
   this.speedX = sx;
   this.speedY = sy;
   this.angle = 0;
+
+  this.type = type; // boolean indicating whether it is chemistry or biology type of Enemy. 
+  this.image = image;
+
+  if (this.type === null) {
+    this.type = Math.random() >= 0.5;
+    if (this.type) {
+      this.image = getRandomBiologyImage();
+    } else {
+      this.image = getRandomChemistryImage();
+    }
+  }
 }
 Enemy.prototype.update = function() {
   this.x -= this.speedX;
@@ -13,12 +25,12 @@ Enemy.prototype.update = function() {
   this.angle += 5;
 }
 Enemy.prototype.show = function() {
-  image(compound1, this.x, this.y, this.radius*2, this.radius*2);
+  image(this.image, this.x, this.y, this.radius*2, this.radius*2);
 }
 Enemy.prototype.destroy = function () {
   if (this.radius > 15) {
-    enemies.push(new this.constructor(this.x, this.y, this.radius/2, this.speedX, random(-2, 2)));
-    enemies.push(new this.constructor(this.x, this.y, this.radius/2, this.speedX, random(-2, 2)));
+    enemies.push(new this.constructor(this.x, this.y, this.radius/2, this.speedX, random(-2, 2), this.type, this.image));
+    enemies.push(new this.constructor(this.x, this.y, this.radius/2, this.speedX, random(-2, 2), this.type, this.image));
   }
 }
 Enemy.prototype.hits = function() {
@@ -52,4 +64,12 @@ function Point(x, y, r, sx, sy) {
 Point.prototype.update = function() {
   this.x -= this.speedX;
   this.y -= this.speedY;
+}
+
+function getRandomBiologyImage() {
+  return biology1;
+}
+
+function getRandomChemistryImage() {
+  return compound2;
 }

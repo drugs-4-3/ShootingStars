@@ -2,16 +2,25 @@ var player;
 var enemies = [];
 var bullets = [];
 var loopGame = true;
+var score = 0;
+var rounds = 30;
+var current_biology_score = 0;
+var current_chemistry_score = 0;
+var biology_exams_passed = 0;
+var chemistry_exams_passed = 0;
+var canvas_width = 1024;
+var canvas_height = 600;
 
 
 function setup() {
-  createCanvas(1024, 600);
+  createCanvas(canvas_width, canvas_height);
   player = new Player();
   evil_img = loadImage('./../assets/img/evil.png');
   big_enemy_img = loadImage('./../assets/img/angel.png');
   wercia_img = loadImage('./../assets/img/Wercia.png')
   compound1 = loadImage('./../assets/img/compound1e.png');
-  compound2 = loadImage('./../assets/img/compound2e.png');
+  compound2 = loadImage('./../assets/img/compound2e.png ');
+  biology1 = loadImage('./../assets/img/bonee.png ');
 }
 
 function draw() {
@@ -51,9 +60,10 @@ function handleBullets() {
     bullet.show();
     for (var j = 0; j < enemies.length; j++) {
       if (bullet.hits(enemies[j])) {
+        bullets.splice(i, 1);
+        upgradeExamPoints(enemies[j].type);
         enemies[j].destroy();
         enemies.splice(j, 1);
-        bullets.splice(i, 1);
         score ++;
       }
     }
@@ -101,4 +111,30 @@ function displayText() {
   text('score: ' + score.toString(), 10, 20);
   fill(0, 200, 10);
   text('bullets: ' + rounds.toString(), 10, 40);
+  text('Biologia: ' + current_biology_score + '%', this.width - 200, 20);
+  text('Chemia: ' + current_chemistry_score + '%', this.width - 100, 20);
+  fill(255, 255, 255);
+  text('Zdanych arkuszy:', this.width - 300, 40);
+  fill(66, 134, 244);
+  textSize(15);
+  text(biology_exams_passed.toString(), this.width - 200, 40);
+  text(chemistry_exams_passed.toString(), this.width - 100, 40);
+}
+
+function upgradeExamPoints(type) {
+  if (type) {
+    if (current_biology_score < 90) {
+      current_biology_score += 10;
+    } else {
+      current_biology_score = 0;
+      biology_exams_passed += 1;
+    }
+  } else {
+    if (current_chemistry_score < 90) {
+      current_chemistry_score += 10;
+    } else {
+      chemistry_exams_passed += 1;
+      current_chemistry_score = 0;
+    }
+  }
 }

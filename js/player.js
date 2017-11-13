@@ -1,7 +1,3 @@
-var score = 0;
-var rounds = 30;
-
-
 function Player() {
 
   this.radius = 30;

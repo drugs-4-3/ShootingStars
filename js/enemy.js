@@ -1,13 +1,16 @@
+var NUMBER_OF_DIFFERENT_ENEMIES = 2;
+
+// Base class for objects that fly towards the player
 function Enemy(x, y, r, sx, sy, type=null, image=null) {
 
-  this.x = x;
-  this.y = y;
-  this.radius = r;
-  this.speedX = sx;
-  this.speedY = sy;
-  this.angle = 0;
+    this.x = x;
+    this.y = y;
+    this.radius = r;
+    this.speedX = sx;
+    this.speedY = sy;
+    this.angle = 0;
 
-  this.type = type; // boolean indicating whether it is chemistry or biology type of Enemy. 
+  this.type = type; // boolean indicating whether it is chemistry or biology type of Enemy.
   this.image = image;
 
   if (this.type === null) {
@@ -22,7 +25,6 @@ function Enemy(x, y, r, sx, sy, type=null, image=null) {
 Enemy.prototype.update = function() {
   this.x -= this.speedX;
   this.y += this.speedY
-  this.angle += 5;
 }
 Enemy.prototype.show = function() {
   image(this.image, this.x, this.y, this.radius*2, this.radius*2);
@@ -37,7 +39,7 @@ Enemy.prototype.hits = function() {
   return dist(this.x + this.radius, this.y + this.radius, player.x + player.radius, player.y + player.radius) < (this.radius + player.radius);
 }
 Enemy.prototype.isOut = function() {
-  return (this.x < 0 || this.y > height || this.y < 0);
+  return (this.x < 0 || this.y > height + this.radius || this.y < -this.radius);
 }
 Enemy.prototype.type = "ENEMY";
 
@@ -67,9 +69,35 @@ Point.prototype.update = function() {
 }
 
 function getRandomBiologyImage() {
-  return biology1;
+  var rand = getRandomInt(0, NUMBER_OF_DIFFERENT_ENEMIES);
+  return biology_enemies_list[rand];
 }
 
 function getRandomChemistryImage() {
-  return compound2;
+  var rand = getRandomInt(0, NUMBER_OF_DIFFERENT_ENEMIES);
+  return chemistry_enemies_list[rand];
+}
+
+function Bonus(x, y, r, sx, sy) {
+  this.x = x;
+  this.y = y;
+  this.radius = r;
+  this.speedX = sx;
+  this.speedY = sy;
+}
+Bonus.prototype.update = function() {
+  this.x -= this.speedX;
+  this.y += this.speedY;
+}
+Bonus.prototype.show = function() {
+  image(handbook, this.x, this.y, this.radius*2, this.radius*3);
+}
+Bonus.prototype.hits = function() {
+  return dist(this.x + this.radius, this.y + this.radius, player.x + player.radius, player.y + player.radius) < (this.radius + player.radius);
+}
+Bonus.prototype.isOut = function() {
+  return (this.x < 0 || this.y > height || this.y < 0);
+}
+Bonus.prototype.getSuperPower = function() {
+  return 1;
 }

@@ -5,7 +5,10 @@ function Player() {
   this.y = height/2;
   this.speed = 0;
   this.acceleration = 0;
-  this.super_shoot_active = false;
+  this.enable_multiple_shoot = false;
+  this.enable_super_shoot = false;
+  var that = this;
+
 
   this.show = function() {
     //fill(255, 120, 160);
@@ -27,10 +30,6 @@ function Player() {
     if (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW)) {
       player.moveUp();
     }
-    if (player.super_shoot_active && keyIsDown(32)) {
-      console.log('space is down');
-      bullets.push(new Bullet(player.x, player.y));
-    }
     this.speed += this.acceleration;
     this.y += this.speed;
     // this.speed *= 0.99;
@@ -39,7 +38,7 @@ function Player() {
 
   this.shoot = function() {
     if (this.super_shoot_active) {
-      bullets.push(new Bullet(this.x, this.y));
+      bullets.push(new Bullet(this.x, this.y + this.radius));
     }
     else {
       if (rounds > 0) {
@@ -49,17 +48,45 @@ function Player() {
     }
   }
 
+  this.enableSuperShoot = function () {
+    var that = this;
+    this.enable_super_shoot = true;
+    setTimeout(function() {
+      that.enable_super_shoot = false;
+      that.hint_text = "";
+      console.log("Super shoot disabled.")
+    }, 5000);
+  }
+
   this.superShoot = function() {
-    var color_r = 109;
-    var color_g = 0;
-    var color_b = 0;
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, 15, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, 10, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, 5, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, 0, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, -5, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, -10, color_r, color_g, color_b));
-      bullets.push(new Bullet(this.x, this.y + this.radius, null, -15, color_r, color_g, color_b));
-      console.log(bullets);
+    if (this.enable_super_shoot) {
+      var color_r = 109;
+      var color_g = 0;
+      var color_b = 0;
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, 15, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, 10, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, 5, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, 0, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, -5, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, -10, color_r, color_g, color_b));
+        bullets.push(new Bullet(this.x, this.y + this.radius, null, -15, color_r, color_g, color_b));
+    }
+  }
+
+  this.setSuperPower = function(super_power_number) {
+    switch (super_power_number) {
+      case 1:
+        this.enableSuperShoot();
+      default:
+        break;
+    }
+  }
+
+  this.addBullets = function(how_many = 15) {
+    this.rounds += how_many;
+  }
+
+  this.isOut = function() {
+    return this.y < -this.radius || this.y > height + this.radius;
   }
 }

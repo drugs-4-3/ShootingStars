@@ -15,6 +15,7 @@ var biology_enemies_list = [];
 var chemistry_enemies_list = [];
 
 
+
 function setup() {
   createCanvas(canvas_width, canvas_height);
   player = new Player();
@@ -23,19 +24,29 @@ function setup() {
   wercia_img = loadImage('./../assets/img/Wercia.png')
   compound1 = loadImage('./../assets/img/compound1e.png');
   compound2 = loadImage('./../assets/img/compound2e.png ');
-  biology1 = loadImage('./../assets/img/bonee.png ');
-  biology2 = loadImage('./../assets/img/dna1.png ');
-  handbook = loadImage('./../assets/img/podrecznik.jpg ');
+  chemistry3 = loadImage('./../assets/img/chemistry3.png ');
+  biology1 = loadImage('./../assets/img/bonee.png');
+  biology2 = loadImage('./../assets/img/dna1.png');
+  biology3 = loadImage('./../assets/img/biology3.png');
+  handbook1 = loadImage('./../assets/img/podrecznik.jpg');
+  handbook2 = loadImage('./../assets/img/podrecznik2.png');
+  me = loadImage('./../assets/img/me.png');
 
-  biology_enemies_list = [biology1, biology2];
-  chemistry_enemies_list = [compound1, compound2];
+  super_power_bar_location_x = width - 150;
+  super_power_bar_location_y = 70;
+  super_power_bar_height = 20;
+  super_power_bar_max_width = 130;
+
+  biology_enemies_list = [biology1, biology2, biology3];
+  chemistry_enemies_list = [compound1, compound2, chemistry3];
+  bonuses_images = [handbook1, handbook2, me];
 }
 
 function draw() {
   if (loopGame) {
     background(0);
   } else {
-    background(150, 0, 0);
+    background(75, 0, 0);
   }
   if (!loopGame) {
     noLoop();
@@ -51,7 +62,7 @@ function draw() {
   produceBonuses();
   handleBonuses();
   displayText();
-
+  displaySuperPowerBar();
 }
 
 function keyPressed() {
@@ -59,11 +70,8 @@ function keyPressed() {
     player.shoot();
   }
   if (key == "A") {
-    player.super_shoot_active = true;
-    setTimeout(function() {
-      console.log('asd');
-      player.super_shoot_active = false;
-    }, 4000);
+    // do usuniecia!!!
+    player.setSuperPower(getRandomInt(1, 3));
   }
   if (key == 'C') {
     player.superShoot();
@@ -144,7 +152,7 @@ function produceSingleEnemy() {
 function produceEnemiesBand() {
   var y = random(height);
   for (let i = 0; i < 8; i++) {
-    enemies.push(new BigEnemy(width + 100, y + random(-50, 50), random(10, 25), random(3, 6), random(-0.4, 0.4)));
+    enemies.push(new Enemy(width + 100, y + random(-50, 50), random(10, 25), random(3, 6), random(-0.4, 0.4)));
   }
 }
 
@@ -200,4 +208,25 @@ function upgradeExamPoints(type) {
       rounds += 10;
     }
   }
+}
+
+function displaySuperPowerBar() {
+  if (player.super_power_code !== 0) {
+    switch (player.super_power_code) {
+      case RADIAL_SHOOT_CODE:
+        fill(0, 250, 0);
+        break;
+      case MULTIPLE_SHOOT_CODE:
+        fill(0, 144, 144);
+        break;
+      default:
+        break;
+    }
+    rect(super_power_bar_location_x, super_power_bar_location_y, Math.floor(super_power_bar_max_width*getSuperPowerBarFraction()), super_power_bar_height);
+  }
+}
+
+function getSuperPowerBarFraction() {
+  return 1 - ((Date.now() - player.super_power_set_time) / SUPER_POWER_TIME_LIMIT);
+  //return 1 - ((Date.now() - player.super_power_set_time) / SUPER_POWER_TIME_LIMIT);
 }

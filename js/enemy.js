@@ -1,4 +1,4 @@
-var NUMBER_OF_DIFFERENT_ENEMIES = 2;
+var NUMBER_OF_DIFFERENT_ENEMIES = 3;
 
 // Base class for objects that fly towards the player
 function Enemy(x, y, r, sx, sy, type=null, image=null) {
@@ -78,19 +78,25 @@ function getRandomChemistryImage() {
   return chemistry_enemies_list[rand];
 }
 
+function getRandomBonusImage() {
+  var rand = getRandomInt(0, bonuses_images.length);
+  return bonuses_images[rand];
+}
+
 function Bonus(x, y, r, sx, sy) {
   this.x = x;
   this.y = y;
   this.radius = r;
   this.speedX = sx;
   this.speedY = sy;
+  this.image = getRandomBonusImage();
 }
 Bonus.prototype.update = function() {
   this.x -= this.speedX;
   this.y += this.speedY;
 }
 Bonus.prototype.show = function() {
-  image(handbook, this.x, this.y, this.radius*2, this.radius*3);
+  image(this.image, this.x, this.y, this.radius*2, this.radius*3);
 }
 Bonus.prototype.hits = function() {
   return dist(this.x + this.radius, this.y + this.radius, player.x + player.radius, player.y + player.radius) < (this.radius + player.radius);

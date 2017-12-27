@@ -5,8 +5,7 @@ function Player() {
   this.y = height/2;
   this.speed = 0;
   this.acceleration = 0;
-  this.enable_multiple_shoot = false;
-  this.enable_super_shoot = false;
+  this.super_power_code = 0;
   var that = this;
 
 

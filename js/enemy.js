@@ -98,6 +98,6 @@ Bonus.prototype.hits = function() {
 Bonus.prototype.isOut = function() {
   return (this.x < 0 || this.y > height || this.y < 0);
 }
-Bonus.prototype.getSuperPower = function() {
-  return 1;
+Bonus.prototype.getSuperPowerCode = function() {
+  return getRandomInt(1, 3);
 }

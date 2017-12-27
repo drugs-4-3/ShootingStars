@@ -107,7 +107,8 @@ function handleBonuses() {
     bonus.update();
     bonus.show();
     if (bonus.hits(player)) {
-      player.setSuperPower(bonus.getSuperPower());
+      player.setSuperPower(bonus.getSuperPowerCode());
+      bonuses.splice(i, 1);
     }
     if (bonus.isOut()) {
       bonuses.splice(i, 1);

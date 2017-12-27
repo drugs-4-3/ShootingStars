@@ -30,14 +30,27 @@ function Player() {
     if (keyIsDown(UP_ARROW) || keyIsDown(RIGHT_ARROW)) {
       player.moveUp();
     }
+    // C on a keyboard
+    if (keyIsDown(67)) {
+      if (this.super_power_code === MULTIPLE_SHOOT_CODE) {
+        bullets.push(new Bullet(this.x, this.y + this.radius));
+      }
+    }
     this.speed += this.acceleration;
     this.y += this.speed;
     // this.speed *= 0.99;
     this.acceleration = 0;
+
+    if (this.super_power_code !== 0) {
+      var curr_time = Date.now();
+      if (Date.now() - this.super_power_set_time > SUPER_POWER_TIME_LIMIT) {
+        this.super_power_code = NO_POWER_CODE;
+      }
+    }
   }
 
   this.shoot = function() {
-    if (this.super_shoot_active) {
+    if (this.super_power_code === MULTIPLE_SHOOT_CODE) {
       bullets.push(new Bullet(this.x, this.y + this.radius));
     }
     else {
@@ -48,38 +61,28 @@ function Player() {
     }
   }
 
-  this.enableSuperShoot = function () {
-    var that = this;
-    this.enable_super_shoot = true;
-    setTimeout(function() {
-      that.enable_super_shoot = false;
-      that.hint_text = "";
-      console.log("Super shoot disabled.")
-    }, 5000);
-  }
-
   this.superShoot = function() {
-    if (this.enable_super_shoot) {
-      var color_r = 109;
-      var color_g = 0;
-      var color_b = 0;
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, 15, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, 10, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, 5, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, 0, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, -5, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, -10, color_r, color_g, color_b));
-        bullets.push(new Bullet(this.x, this.y + this.radius, null, -15, color_r, color_g, color_b));
+    if (this.super_power_code !== 0) {
+      // left place for other options and ideas
+      switch (this.super_power_code) {
+        case RADIAL_SHOOT_CODE:
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, 15, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, 10, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, 5, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, 0, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, -5, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, -10, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          bullets.push(new Bullet(this.x, this.y + this.radius, null, -15, SPECIAL_BULLET_COLOR_R, SPECIAL_BULLET_COLOR_G, SPECIAL_BULLET_COLOR_B));
+          break;
+        default:
+          break;
+      }
     }
   }
 
   this.setSuperPower = function(super_power_number) {
-    switch (super_power_number) {
-      case 1:
-        this.enableSuperShoot();
-      default:
-        break;
-    }
+    this.super_power_code = super_power_number;
+    this.super_power_set_time = Date.now();
   }
 
   this.addBullets = function(how_many = 15) {

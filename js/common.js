@@ -1,5 +1,15 @@
 var rounds = 30;
 
+var NO_POWER_CODE = 0;
+var RADIAL_SHOOT_CODE = 1;
+var MULTIPLE_SHOOT_CODE = 2;
+
+var SUPER_POWER_TIME_LIMIT = 5000;
+
+var SPECIAL_BULLET_COLOR_R = 109;
+var SPECIAL_BULLET_COLOR_G = 112;
+var SPECIAL_BULLET_COLOR_B = 25;
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -25,3 +35,10 @@ function getGameOverText() {
       break;
   }
 }
+
+
+// uzytkownik uderza w bonus:
+//   bonus znika
+//   pobierane sa dane o kodzie bonusu
+//   ustawiany jest bonus o danym kodzie na uzytkowniku
+//   wyswietla sie znaczek bonusu o danym kodzie w prawym gornym rogu (rozrozniane po kolorach), jesli juz jest - zastepujemy

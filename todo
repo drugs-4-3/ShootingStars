@@ -1,0 +1,27 @@
+bomba, strzaly na wszystkie kierunki 
+moje postacie dajace super moce
+super moce wyswietlaja sie na ekranie 
+troche zmniejszyc poziom trudnosci i polepszyc UX?
+
+
+
+
+update: 
+
+2 rodzaje wrogów - chemia i biologia, z każdego po 3 postaci (chemia jakieś wzorki, biologia - kości, komórki ??)
+zabicie wroga z danej kategorii daje np. 10% do matury z odpowiadającego przedmiotu
+po osiągnięciu 100% zwiększa się liczba "zdanych matur" z danego przedmiotu o 1 i pojawia się arkusz gratulacyjny, gra trwa dalej
+
+
+
+#####
+
+1. dodać nowe obrazki jako wrogów  
+2. dodać mnie jako coś, w co trzeba wejść, żeby uzyskać super moc 
+3. super-moc na ograniczony czas (np. 10 sekund)
+	- docelowo losuje jedną z kilku, jedna już jest zaimplementowana - nieograniczone strzały na wszystkie strony
+	- 
+4. wizualne zakończenie - przegrana gra - tło na czerwono?
+5. wizualne zdobycie kolejnej matury - tło na zielono na chwilę
+6. zablokować wylatywanie poza ekran
+7. dodawanie pocisków po zdaniu kolejnej matury

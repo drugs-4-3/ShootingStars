@@ -10,12 +10,16 @@ var SPECIAL_BULLET_COLOR_R = 109;
 var SPECIAL_BULLET_COLOR_G = 112;
 var SPECIAL_BULLET_COLOR_B = 25;
 
+var FADE_COLOR_RED = 1;
+var FADE_COLOR_GREEN = 2;
+
+var FADE_DURATION = 500;
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
-
 function getGameOverText() {
   var rand = getRandomInt(0, 6);
   switch (rand) {

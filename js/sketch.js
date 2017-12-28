@@ -13,8 +13,8 @@ var canvas_width = 1024;
 var canvas_height = 600;
 var biology_enemies_list = [];
 var chemistry_enemies_list = [];
-
-
+var fade_set_time = 0;
+var fade_color_code = 0;
 
 function setup() {
   createCanvas(canvas_width, canvas_height);
@@ -43,11 +43,7 @@ function setup() {
 }
 
 function draw() {
-  if (loopGame) {
-    background(0);
-  } else {
-    background(75, 0, 0);
-  }
+  setBackground();
   if (!loopGame) {
     noLoop();
   }
@@ -73,9 +69,52 @@ function keyPressed() {
   if (key == "A") {
     // do usuniecia!!!
     player.setSuperPower(getRandomInt(1, 3));
+    fade_set_time = Date.now();
+    fade_color_code = FADE_COLOR_RED;
   }
   if (key == 'C') {
     player.superShoot();
+  }
+}
+
+function setBackground() {
+  if (loopGame) {
+    background(0);
+    if (fade_set_time !== 0) {
+      var time = Date.now() - fade_set_time;
+      if (time < FADE_DURATION) {
+        console.log("we;re in");
+        if (time < 250) {
+          var fraction = time/250;
+        } else {
+          var fraction = 1 - (time-250)/250;
+        }
+        setFadeBackground(fade_color_code, fraction);
+      }
+    }
+  } else {
+    background(75, 0, 0);
+  }
+}
+
+/**
+* Function takes 2 arguements:
+* fade_color_code: Integer informing which color to use for fade
+* fraction: Real informing at which stage of fade we're currently in. Oscilates between 0 (black) and 1 (full fade color)
+
+To activate flash fade background at current time:
+ just set fade_set_time to current time in miliseconds and set fade_color_code to preffered code.
+*/
+function setFadeBackground(fade_color_code, fraction) {
+  switch (fade_color_code) {
+    case FADE_COLOR_RED:
+      background(220*fraction, 40*fraction, 10*fraction);
+      break;
+    case FADE_COLOR_GREEN:
+      background(40*fraction, 220*fraction, 10*fraction);
+      break;
+    default:
+      break;
   }
 }
 
@@ -87,7 +126,7 @@ function handleBullets() {
     for (var j = 0; j < enemies.length; j++) {
       if (bullet.hits(enemies[j])) {
         bullets.splice(i, 1);
-        upgradeExamPoints(enemies[j].type);
+        handleExamPoints(enemies[j].type);
         enemies[j].destroy();
         enemies.splice(j, 1);
         score ++;
@@ -103,6 +142,7 @@ function handleEnemies() {
     enemy.show();
     if (enemy.hits(player)) {
       enemies.splice(i, 1);
+      badBackgroundFade();
       if (--player.health_points <= 0) {
         loopGame = false;
       }
@@ -198,7 +238,7 @@ function displayText() {
   }
 }
 
-function upgradeExamPoints(type) {
+function handleExamPoints(type) {
   if (type) {
     if (current_biology_score < 90) {
       current_biology_score += 10;
@@ -206,6 +246,7 @@ function upgradeExamPoints(type) {
       current_biology_score = 0;
       biology_exams_passed += 1;
       rounds += 10;
+      goodBackgroundFade();
     }
   } else {
     if (current_chemistry_score < 90) {
@@ -214,6 +255,7 @@ function upgradeExamPoints(type) {
       chemistry_exams_passed += 1;
       current_chemistry_score = 0;
       rounds += 10;
+      goodBackgroundFade();
     }
   }
 }
@@ -236,5 +278,14 @@ function displaySuperPowerBar() {
 
 function getSuperPowerBarFraction() {
   return 1 - ((Date.now() - player.super_power_set_time) / SUPER_POWER_TIME_LIMIT);
-  //return 1 - ((Date.now() - player.super_power_set_time) / SUPER_POWER_TIME_LIMIT);
+}
+
+function badBackgroundFade() {
+  fade_set_time = Date.now();
+  fade_color_code = FADE_COLOR_RED;
+}
+
+function goodBackgroundFade() {
+  fade_set_time = Date.now();
+  fade_color_code = FADE_COLOR_GREEN;
 }

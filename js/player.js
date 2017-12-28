@@ -6,6 +6,7 @@ function Player() {
   this.speed = 0;
   this.acceleration = 0;
   this.super_power_code = 0;
+  this.health_points = 3;
   var that = this;
 
 

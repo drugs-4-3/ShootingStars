@@ -53,6 +53,7 @@ function draw() {
   }
   player.update();
   if (player.isOut()) {
+    player.health_points = 0;
     loopGame = false;
   }
   player.show();
@@ -101,7 +102,10 @@ function handleEnemies() {
     enemy.update();
     enemy.show();
     if (enemy.hits(player)) {
-      loopGame = false;
+      enemies.splice(i, 1);
+      if (--player.health_points <= 0) {
+        loopGame = false;
+      }
     }
     if (enemy.isOut()) {
       enemies.splice(i, 1);
@@ -161,15 +165,19 @@ function displayText() {
   // score text
   textSize(10);
   fill(255);
-  text('score: ' + score.toString(), 10, 20);
+  text('Punkty: ' + score.toString(), 10, 20);
 
   // exam scores text
   fill(0, 200, 10);
   text('Biologia: ' + current_biology_score + '%', this.width - 200, 20);
   text('Chemia: ' + current_chemistry_score + '%', this.width - 100, 20);
 
+  fill (203, 177, 24);
+  text ("Zycie: " + player.health_points.toString(), 10, 60);
+
   // bullets text
-  text('bullets: ' + rounds.toString(), 10, 40);
+  fill (200, 30, 30);
+  text('Naboje: ' + rounds.toString(), 10, 40);
 
   // passed exams text
   fill(255, 255, 255);
